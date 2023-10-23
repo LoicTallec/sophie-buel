@@ -59,6 +59,10 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+header span {
+	font-family: 'Syne';
+}
 section {
 	margin: 50px 0
 }
@@ -74,9 +78,10 @@ h1{
 
 h1 > span {
 	font-family: 'Work Sans';
-	font-size:10px;
+	font-size: 10px;
+	font-weight: 100;
+	margin-top: 5px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -96,7 +101,13 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+nav a {
+	text-decoration: none;
+	color: black;
+}
+
+li:hover,
+a:hover {
 	color: #B1663C;
 }
 #introduction {
@@ -140,7 +151,7 @@ li:hover {
 }
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -186,33 +197,86 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+/********* PAGE 1 **********/
 
+.filters {
+	display: flex;
+	justify-content: center;
+	margin: 4em 0;
+}
 
+button {
+	margin: 0 5px;
+	border: #1D6154 2px solid;
+	padding: 8px 20px;
+	border-radius: 30px;
+	font-family: 'Syne';
+	color: #1D6154;
+	background-color: #FFF;
+}
+
+button:focus,
+button:hover {
+	background-color: #1D6154;
+	color: #FFF;
+}
 /******** LOG IN PAGE ************/
 
 .login{
 	font-weight: bold;
 }
 
+
+
 .loginpage {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: auto;
+	margin: 200px 0;
 }
 
-form {
+.loginpage a {
+	font-weight: 900;
+	color: #3D3D3D;
+}
+
+.loginpage h2 {
+	margin-bottom: 1.5em;
+}
+
+[id='myform'] {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	justify-content: center;
+	margin-bottom: 1em;
 }
 
-button {
-	background-color: #1D6154;
-	width: 150px;
-	border: none;
-	padding: 5px;
-	color: #FFF;
+
+.label-login {
+	margin-bottom: 0.5em;
 	font-family: 'Work Sans';
-	border-radius: 30px;
+	font-size: 0.8em;
+	font-weight: 900;
+	color: #3D3D3D;
+	letter-spacing: .5px;
 }
+
+.input-login {
+	margin-bottom: 2em;
+	width: 400px;
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.10);
+}
+
+.loginbutton {
+	background-color: #1D6154;
+	width: 180px;
+	height: 35px;
+	border: none;
+	color: #FFF;
+	font-family: 'Syne';
+	border-radius: 30px;
+	margin-bottom: 2em;
+}
+

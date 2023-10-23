@@ -64,12 +64,39 @@ const images = [
     }
 ];
 
-const galleryDiv = document.querySelector('.gallery');
+const galleryDiv       = document.querySelector('.gallery');
+const filtersContainer = document.querySelector(".filters");
 
+const filters = [
+    {
+        "id": 0,
+        "name": "Tous"
+    },
+    {
+        "id": 1,
+        "name": "Objets",
+    },
+    {
+        "id": 2,
+        "name": "Appartements"
+    },
+    {
+        "id": 3,
+        "name": "Hôtels & Restaurants"
+    }
+]
 
 // VARIABLES
 
 // FUNCTIONS
+
+
+
+filters.forEach(filter => {
+    const button = document.createElement("button");
+    button.textContent = filter.name;
+    filtersContainer.appendChild(button);
+});
 
 images.forEach(image => {
     const figure     = document.createElement('figure');
