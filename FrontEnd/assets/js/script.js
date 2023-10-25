@@ -8,8 +8,6 @@ const CATEGORIES_URL = BASE_URL + "categories";
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
 
-
-
 // VARIABLES
 
 // FUNCTIONS
@@ -48,32 +46,40 @@ async function getCategories() {
     }
 }
 
+async function displayWorks(categoriesId = 0) {
+    const works = await getWorks();
+
+    const filteredWorks = categoriesId ? works.filter(image => image.categoryId === categoriesId) : works;
+
+    galleryDiv.innerHTML = "";
+
+    filteredWorks.forEach(image => {
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        const figcaption = document.createElement('figcaption');
+
+        img.setAttribute('src', image.imageUrl);
+        img.setAttribute('alt', image.title);
+        figcaption.textContent = image.title;
+
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        galleryDiv.appendChild(figure);
+    });
+}
+
 async function displayFilters() {
     const filters = await getCategories();
-    filters.unshift({id: 0, name: "Tous"});
+    filters.unshift({ id: 0, name: "Tous" });
 
     filters.forEach(filter => {
         const button = document.createElement("button");
         button.textContent = filter.name;
         filtersContainer.appendChild(button);
-    });
-}
 
-async function displayWorks() {
-    const works = await getWorks();
-
-    works.forEach(image => {
-        const figure     = document.createElement('figure');
-        const img        = document.createElement('img');
-        const figcaption = document.createElement('figcaption');
-    
-        img.setAttribute('src', image.imageUrl);
-        img.setAttribute('alt', image.title);
-        figcaption.textContent = image.title;
-    
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-        galleryDiv.appendChild(figure);
+        button.addEventListener("click", async () => {
+            await displayWorks(filter.id);
+        });
     });
 }
 
