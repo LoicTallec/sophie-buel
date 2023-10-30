@@ -21,8 +21,8 @@ async function login() {
             headers: { "Content-type": "application/json"},
             body: JSON.stringify(data)
         })
-        .then (response => response.json())
-        .then (data => {
+        .then(response => response.json())
+        .then(data => {
             console.log(data);
 
             if(data.userId && data.token) {
@@ -31,7 +31,7 @@ async function login() {
             }
             
             else {
-                console.log('Error 404 User not found ')
+                console.log('Error 404 - User not found ')
             };
         })
         .catch(error => console.log(error));
