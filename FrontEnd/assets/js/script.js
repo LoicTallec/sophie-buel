@@ -83,11 +83,37 @@ async function displayFilters() {
     });
 }
 
+function displayAdmin() {
+    const projetTitle = document.querySelector("#project-title");
+    const login       = document.querySelector("#login");
 
+    const modify = document.createElement("button");
+
+    login.innerHTML = '<button class="logout">logout</button>';
+    login.addEventListener("click", logout);
+
+    modify.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Modifier';
+
+    projetTitle.appendChild(modify);
+}
+
+function switchDisplay() {
+    if (localStorage.getItem("token")) {
+        displayAdmin();
+    } else {
+        displayFilters();
+    }
+    
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    location.href = "assets/login.html";
+}
 
 
 
 //MAIN
 
-displayFilters();
+switchDisplay();
 displayWorks();

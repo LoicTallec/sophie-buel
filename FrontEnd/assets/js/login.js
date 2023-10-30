@@ -27,7 +27,7 @@ async function login() {
 
             if(data.userId && data.token) {
                 window.location.assign('../index.html');
-                sessionStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.token);
             }
             
             else {

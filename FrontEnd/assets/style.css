@@ -205,7 +205,7 @@ footer nav ul {
 	margin: 4em 0;
 }
 
-button {
+.filters button {
 	margin: 0 5px;
 	border: #1D6154 2px solid;
 	padding: 8px 20px;
@@ -215,8 +215,8 @@ button {
 	background-color: #FFF;
 }
 
-button:focus,
-button:hover {
+.filters button:focus,
+.filters button:hover {
 	background-color: #1D6154;
 	color: #FFF;
 }
