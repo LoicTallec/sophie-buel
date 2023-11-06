@@ -1,6 +1,7 @@
 "use strict";
 
 //CONSTANTS
+
 const BASE_URL       = "http://localhost:5678/api/"; 
 const WORKS_URL      = BASE_URL + "works";
 const CATEGORIES_URL = BASE_URL + "categories";
@@ -8,7 +9,13 @@ const CATEGORIES_URL = BASE_URL + "categories";
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
 const body             = document.querySelector("body");
-
+const modale           = document.createElement('section');
+const navigate         = document.createElement('div');
+const croix            = document.createElement('span');
+const title            = document.createElement('h2');
+const gallery          = document.createElement('ul');
+const rod              = document.createElement('div');
+const addDel           = document.createElement('button');
 
 // VARIABLES
 
@@ -104,41 +111,76 @@ function displayAdmin() {
     projetTitle.appendChild(modify);
 
     modify.addEventListener("click", () => {
-        createModale();
+        createGalleryModale();
     });
 }
 
-function createModale() {
+async function createGalleryModale() {
+    const works = await getWorks();
     const modaleContainer = document.querySelector('.modale-contener');
 
-    // Créer l'élément de la modale
-    const modale = document.createElement('div');
+
+
+    for (let work of works) {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        const delet = document.createElement('div');
+      
+        delet.classList.add('garbage');
+      
+        img.setAttribute('src', work.imageUrl);
+        img.setAttribute('alt', work.title);
+        delet.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+      
+        li.appendChild(img);
+        gallery.appendChild(li);
+        gallery.appendChild(delet);
+      
+        croix.addEventListener('click', () => {
+          li.remove();
+          delet.remove();
+        });
+      }
+
     modale.classList.add('modale');
+    navigate.classList.add('navigate');
+    title.classList.add('title-gallery');
+    rod.classList.add('rod');
+    addDel.classList.add('button-gallery');
 
-    // Créer le contenu de la modale
-    const contenu = document.createElement('div');
-    contenu.classList.add('contenu');
-    contenu.innerHTML = '<p>Galerie photo</p>';
+    title.innerText   = 'Galerie photo';
+    addDel.innerText  = 'Ajouter une photo';
+    croix.innerHTML   = '<i class="fa-solid fa-xmark "></i>';
 
-    // Ajouter le contenu à la modale
-    modale.appendChild(contenu);
-    
-    // Créer la croix de fermeture
-    const croix = document.createElement('span');
-    croix.innerHTML = '<i class="fa-solid fa-xmark "></i>';
     croix.addEventListener('click', fermerModale);
+    addDel.addEventListener('click', () => {
+        displayFormModale();
+    });
 
-    // Ajouter la croix à la modale
-    modale.appendChild(croix);
-    
-    // Ajouter la modale au conteneur
+    navigate.appendChild(croix);
+    modale.appendChild(navigate);
+    modale.appendChild(title);
+    modale.appendChild(gallery);
+    modale.appendChild(rod);
+    modale.appendChild(addDel);
     modaleContainer.appendChild(modale);
 
-    // Fermer la modale lorsque l'utilisateur clique sur la croix
     function fermerModale() {
         modaleContainer.removeChild(modale);
     }
 }
+
+
+
+function displayFormModale() {
+    const images = document.querySelectorAll('.modale ul');
+
+    title.innerText = 'Ajout photo';
+    addDel.innerText = 'Valider';
+
+    images.forEach(ul => ul.remove())
+}
+
 
 
 function switchDisplay() {
