@@ -7,6 +7,8 @@ const CATEGORIES_URL = BASE_URL + "categories";
 
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
+const body             = document.querySelector("body");
+
 
 // VARIABLES
 
@@ -86,16 +88,58 @@ async function displayFilters() {
 function displayAdmin() {
     const projetTitle = document.querySelector("#project-title");
     const login       = document.querySelector("#login");
-
-    const modify = document.createElement("button");
+    const headband    = document.createElement("div");
+    
+    headband.classList.add("headband");
+    headband.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Mode édition';
+    const firstChild = body.firstChild;
+    body.insertBefore(headband, firstChild);
 
     login.innerHTML = '<button class="logout">logout</button>';
     login.addEventListener("click", logout);
 
+    const modify = document.createElement("button");
     modify.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Modifier';
 
     projetTitle.appendChild(modify);
+
+    modify.addEventListener("click", () => {
+        createModale();
+    });
 }
+
+function createModale() {
+    const modaleContainer = document.querySelector('.modale-contener');
+
+    // Créer l'élément de la modale
+    const modale = document.createElement('div');
+    modale.classList.add('modale');
+
+    // Créer le contenu de la modale
+    const contenu = document.createElement('div');
+    contenu.classList.add('contenu');
+    contenu.innerHTML = '<p>Galerie photo</p>';
+
+    // Ajouter le contenu à la modale
+    modale.appendChild(contenu);
+    
+    // Créer la croix de fermeture
+    const croix = document.createElement('span');
+    croix.innerHTML = '<i class="fa-solid fa-xmark "></i>';
+    croix.addEventListener('click', fermerModale);
+
+    // Ajouter la croix à la modale
+    modale.appendChild(croix);
+    
+    // Ajouter la modale au conteneur
+    modaleContainer.appendChild(modale);
+
+    // Fermer la modale lorsque l'utilisateur clique sur la croix
+    function fermerModale() {
+        modaleContainer.removeChild(modale);
+    }
+}
+
 
 function switchDisplay() {
     if (localStorage.getItem("token")) {
@@ -103,7 +147,6 @@ function switchDisplay() {
     } else {
         displayFilters();
     }
-    
 }
 
 function logout() {
@@ -117,3 +160,4 @@ function logout() {
 
 switchDisplay();
 displayWorks();
+
