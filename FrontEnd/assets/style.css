@@ -392,6 +392,14 @@ button {
 	background-color: rgba(0, 0, 0, 0.2);
 }
 
+.navigate {
+	width: 590px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	margin-right: 570px;
+}
+
 
 
 .button-gallery {
@@ -403,4 +411,8 @@ button {
 	font-family: 'Syne';
 	border-radius: 30px;
 	margin-top: 40px;
+}
+
+[id='add-picture'] {
+	display: none;
 }

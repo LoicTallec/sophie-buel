@@ -9,14 +9,18 @@ const CATEGORIES_URL = BASE_URL + "categories";
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
 const body             = document.querySelector("body");
+const modaleContainer  = document.querySelector('.modale-contener');
 const modale           = document.createElement('section');
 const navigate         = document.createElement('div');
+const leftArrow        = document.createElement("span");
 const croix            = document.createElement('span');
 const title            = document.createElement('h2');
 const gallery          = document.createElement('ul');
 const rod              = document.createElement('div');
 const addDel           = document.createElement('button');
+const li               = document.createElement('li');
 
+const addPicture       = document.getElementById("add-picture");
 // VARIABLES
 
 // FUNCTIONS
@@ -117,30 +121,30 @@ function displayAdmin() {
 
 async function createGalleryModale() {
     const works = await getWorks();
-    const modaleContainer = document.querySelector('.modale-contener');
-
 
 
     for (let work of works) {
         const li = document.createElement('li');
         const img = document.createElement('img');
         const delet = document.createElement('div');
-      
+
         delet.classList.add('garbage');
-      
+
         img.setAttribute('src', work.imageUrl);
         img.setAttribute('alt', work.title);
         delet.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-      
+
         li.appendChild(img);
         gallery.appendChild(li);
         gallery.appendChild(delet);
-      
+
         croix.addEventListener('click', () => {
-          li.remove();
-          delet.remove();
+            li.remove();
+            delet.remove();
+            addPicture.remove();
+            leftArrow.remove();
         });
-      }
+    }
 
     modale.classList.add('modale');
     navigate.classList.add('navigate');
@@ -155,7 +159,16 @@ async function createGalleryModale() {
     croix.addEventListener('click', fermerModale);
     addDel.addEventListener('click', () => {
         displayFormModale();
+
+        leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+        navigate.appendChild(leftArrow);
     });
+
+    leftArrow.addEventListener('click', () => {
+        addPicture.remove();
+        leftArrow.remove();
+        
+    })
 
     navigate.appendChild(croix);
     modale.appendChild(navigate);
@@ -164,23 +177,36 @@ async function createGalleryModale() {
     modale.appendChild(rod);
     modale.appendChild(addDel);
     modaleContainer.appendChild(modale);
-
-    function fermerModale() {
-        modaleContainer.removeChild(modale);
-    }
 }
 
-
+function fermerModale() {
+    modaleContainer.removeChild(modale);
+}
 
 function displayFormModale() {
     const images = document.querySelectorAll('.modale ul');
+    const formContainer = document.createElement("div");
+    
 
     title.innerText = 'Ajout photo';
     addDel.innerText = 'Valider';
 
     images.forEach(ul => ul.remove())
-}
 
+    
+    formContainer.classList.add('gallery-add');
+
+    modale.appendChild(formContainer);
+    formContainer.appendChild(addPicture);
+    
+    addPicture.style.display = "flex";
+    addPicture.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const formData = new FormData(addPicture);
+
+    }) 
+}
 
 
 function switchDisplay() {
