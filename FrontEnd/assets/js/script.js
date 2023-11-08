@@ -119,9 +119,8 @@ function displayAdmin() {
     });
 }
 
-async function createGalleryModale() {
+async function worksFunction() {
     const works = await getWorks();
-
 
     for (let work of works) {
         const li = document.createElement('li');
@@ -145,6 +144,10 @@ async function createGalleryModale() {
             leftArrow.remove();
         });
     }
+}
+
+async function createGalleryModale() {
+    worksFunction();
 
     modale.classList.add('modale');
     navigate.classList.add('navigate');
@@ -159,9 +162,6 @@ async function createGalleryModale() {
     croix.addEventListener('click', fermerModale);
     addDel.addEventListener('click', () => {
         displayFormModale();
-
-        leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
-        navigate.appendChild(leftArrow);
     });
 
     leftArrow.addEventListener('click', () => {
@@ -186,11 +186,13 @@ function fermerModale() {
 function displayFormModale() {
     const images = document.querySelectorAll('.modale ul');
     const formContainer = document.createElement("div");
-    
+    const pictureAdd = document.createElement("button");
 
     title.innerText = 'Ajout photo';
+    pictureAdd.innerText = '+ Ajouter photo';
     addDel.innerText = 'Valider';
-
+    leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+    navigate.appendChild(leftArrow);
     images.forEach(ul => ul.remove())
 
     
