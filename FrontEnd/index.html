@@ -40,21 +40,29 @@
 		<h2 id="project-title">Mes Projets</h2>
 		<div class="filters"></div>
 		<div class="modale-contener">
-			<form id="add-picture" method="post">
-				<figure>
+			<form class="form-add" id="add-picture" method="post">
+				<figure class="modale-image">
+					<i class="fa-regular fa-image logo-image fa-2xl"></i>
+
 					
+					<button class="add" method="post">+ Ajouter photo</button>
+					<label for="file">jpg, png : 4mo max</label>
 				</figure>
+
+
 
 				<label for="title">Titre</label>
 				<input type="string" name="title">
 
-				<label for="category">Categorie</label>
+				<label for="category">Catégorie</label>
 				<select name="category" type="number">
+					<option value="0"></option>
 					<option value="1">Objets</option>
 					<option value="2">Appartements</option>
 					<option value="3">Hôtels et Restaurants</option>
 				</select>
 			</form>
+			<button id="validate" form="add-picture" class="post-picture" type="submit">Valider</button>
 		</div>
 		<div class="gallery"></div>
 	</section>

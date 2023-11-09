@@ -5,11 +5,20 @@
 const BASE_URL       = "http://localhost:5678/api/"; 
 const WORKS_URL      = BASE_URL + "works";
 const CATEGORIES_URL = BASE_URL + "categories";
+const SEND_URL       = BASE_URL + "works";
 
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
 const body             = document.querySelector("body");
 const modaleContainer  = document.querySelector('.modale-contener');
+const postPicture      = document.querySelector(".post-picture");
+const figure           = document.querySelector('.modale-image');
+const addButton        = document.querySelector('.add');
+const fileInput        = document.createElement('input');
+const newPicture       = document.querySelector('.post-picture');
+
+const image            = figure.querySelector('img');
+
 const modale           = document.createElement('section');
 const navigate         = document.createElement('div');
 const leftArrow        = document.createElement("span");
@@ -20,7 +29,12 @@ const rod              = document.createElement('div');
 const addDel           = document.createElement('button');
 const li               = document.createElement('li');
 
+const validate         = document.getElementById("validate");
 const addPicture       = document.getElementById("add-picture");
+
+
+
+console.log(addButton);
 // VARIABLES
 
 // FUNCTIONS
@@ -138,10 +152,8 @@ async function worksFunction() {
         gallery.appendChild(delet);
 
         croix.addEventListener('click', () => {
-            li.remove();
-            delet.remove();
-            addPicture.remove();
-            leftArrow.remove();
+            gallery.removeChild(li);
+            gallery.removeChild(delet);
         });
     }
 }
@@ -161,14 +173,8 @@ async function createGalleryModale() {
 
     croix.addEventListener('click', fermerModale);
     addDel.addEventListener('click', () => {
-        displayFormModale();
+        formModale();
     });
-
-    leftArrow.addEventListener('click', () => {
-        addPicture.remove();
-        leftArrow.remove();
-        
-    })
 
     navigate.appendChild(croix);
     modale.appendChild(navigate);
@@ -179,37 +185,113 @@ async function createGalleryModale() {
     modaleContainer.appendChild(modale);
 }
 
-function fermerModale() {
-    modaleContainer.removeChild(modale);
+function formModale() {
+    gallery.remove();
+    addDel.remove();
+    rod.remove();
+
+    rod.classList.add('rodmodale');
+    title.innerText = 'Ajout photo';
+
+    leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+    leftArrow.addEventListener('click', () => {
+        addPicture.style.display = "none";
+        title.innerText = 'Galerie photo';
+        removeModale();
+        postPicture.style.display = "none";
+    });
+
+    croix.addEventListener('click', () => {
+        addPicture.style.display = "none";
+        leftArrow.remove();
+        postPicture.style.display = "none";
+    });
+
+    addButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        displayFormModale();
+        fileInput.click();
+    })
+
+    validate.addEventListener('click', (event) => {
+        
+        getWorksAndDisplay();
+    })
+
+    addPicture.style.display  = "flex";
+    postPicture.style.display = "flex";
+
+    navigate.appendChild(leftArrow);
+    modale.appendChild(addPicture);
+    modale.appendChild(rod);
+    modale.appendChild(postPicture)
+}
+
+function removeModale() {
+    leftArrow.remove();
+    modale.appendChild(navigate);
+    modale.appendChild(title);
+    modale.appendChild(gallery);
+    modale.appendChild(rod);
+    modale.appendChild(addDel);
 }
 
 function displayFormModale() {
-    const images = document.querySelectorAll('.modale ul');
-    const formContainer = document.createElement("div");
-    const pictureAdd = document.createElement("button");
 
-    title.innerText = 'Ajout photo';
-    pictureAdd.innerText = '+ Ajouter photo';
-    addDel.innerText = 'Valider';
-    leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
-    navigate.appendChild(leftArrow);
-    images.forEach(ul => ul.remove())
-
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('accept', 'image/jpeg, image/png');
+    fileInput.setAttribute('max-size', '4194304'); // 4 Mo en octets
     
-    formContainer.classList.add('gallery-add');
-
-    modale.appendChild(formContainer);
-    formContainer.appendChild(addPicture);
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
     
-    addPicture.style.display = "flex";
-    addPicture.addEventListener('submit', event => {
-        event.preventDefault();
+    reader.onload = (e) => {
+        const addImage = document.createElement('img');
+        addImage.setAttribute('src', e.target.result);
+        addImage.setAttribute('alt', 'Image ajoutée');
+    
+        const figure = document.querySelector('.modale-image');
+        figure.innerText = '';
+        figure.appendChild(addImage);
+    };
 
-        const formData = new FormData(addPicture);
-
-    }) 
+        reader.readAsDataURL(file);
+    });
 }
 
+function getWorksAndDisplay() {
+    const form = document.getElementById('add-picture');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+    const formData = new FormData(form);
+    const imageInput = document.querySelector('input[name="image"]');
+
+      // Ajoutez le fichier d'image à FormData
+    formData.append('image', imageInput.files[0]);
+
+    fetch('SEND_URL', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Réponse de l\'API :', data);
+        displayWorks(data);
+          // ...
+        })
+        .catch(error => {
+        console.error('Erreur lors du téléchargement du formulaire :', error);
+        });
+    });
+}
+
+
+function fermerModale() {
+    modaleContainer.removeChild(modale);
+}
 
 function switchDisplay() {
     if (localStorage.getItem("token")) {

@@ -413,6 +413,88 @@ button {
 	margin-top: 40px;
 }
 
-[id='add-picture'] {
+.form-add {
 	display: none;
+	width: 420px;
+	flex-direction: column;
+}
+
+.form-add figure {
+	display: flex;
+	height: 170px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #E8F1F6;
+	margin-bottom: 40px;
+}
+
+.form-add input {
+	height: 45px;
+	margin-bottom: 20px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.form-add select {
+	height: 50px;
+	margin-bottom: 70px;
+	border: none;
+	background-color: #FFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.form-add label {
+	font-family: 'Work Sans';
+	font-size: 15px;
+	font-weight: 500;
+	color: #000;
+	margin-bottom: 10px;
+}
+
+.logo-image {
+	margin: 30px 0;
+	color: #B9C5CC;
+}
+
+
+
+.add {
+	width: 170px;
+	height: 35px;
+	border-radius: 30px;
+	color: #306685;
+	background-color: #CBD6DC;
+	margin-bottom: 15px;
+	font-family: 'Work Sans';
+}
+
+.form-add figure label {
+	font-family: 'Work Sans';
+	font-size: 0.8em;
+	font-weight: 100;
+	color: #306685;
+	letter-spacing: .5px;
+}
+
+.post-picture {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin-top: 40px;
+	border-radius: 30px;
+	width: 200px;
+	height: 35px;
+	color: #FFF;
+	font-family: 'Work Sans';
+	font-size: 15px;
+	font-weight: 100;
+	letter-spacing: .5px;
+	background-color: #A7A7A7;
+}
+
+.modale-image img {
+	max-width: 420px;
+	max-height: 170px;
+	height: 100%;
+	width: 50%;
 }
