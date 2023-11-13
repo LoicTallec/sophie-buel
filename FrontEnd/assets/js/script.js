@@ -34,7 +34,7 @@ const addPicture       = document.getElementById("add-picture");
 
 
 
-console.log(addButton);
+
 // VARIABLES
 
 // FUNCTIONS
@@ -214,8 +214,9 @@ function formModale() {
     })
 
     validate.addEventListener('click', (event) => {
+        event.preventDefault();
+        sendFormData();
         
-        getWorksAndDisplay();
     })
 
     addPicture.style.display  = "flex";
@@ -260,33 +261,37 @@ function displayFormModale() {
     });
 }
 
-function getWorksAndDisplay() {
+
+
+function sendFormData() {
     const form = document.getElementById('add-picture');
-
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-
     const formData = new FormData(form);
-    const imageInput = document.querySelector('input[name="image"]');
 
-      // Ajoutez le fichier d'image à FormData
-    formData.append('image', imageInput.files[0]);
-
+    const token = localStorage.getItem('token'); // Récupère le token depuis le local storage
+    console.log(token);
     fetch('SEND_URL', {
-        method: 'POST',
-        body: formData
+    method: 'POST',
+    body: formData,
+    headers: {
+    'Authorization': `Bearer ${token}`
+    }
+})
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Erreur lors de la requête: ' + response.status);
+    }
+    return response.json();
     })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Réponse de l\'API :', data);
-        displayWorks(data);
-          // ...
-        })
-        .catch(error => {
-        console.error('Erreur lors du téléchargement du formulaire :', error);
-        });
-    });
+    .then(data => {
+    console.log('Réponse de l\'API :', data);
+    // Faites quelque chose avec la réponse de l'API
+    })
+    .catch(error => {
+    console.error('Erreur lors de l\'envoi du formulaire :', error);
+    // Gérez les erreurs lors de l'envoi du formulaire
+})  
 }
+
 
 
 function fermerModale() {
