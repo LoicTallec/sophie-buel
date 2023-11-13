@@ -5,7 +5,7 @@
 const BASE_URL       = "http://localhost:5678/api/"; 
 const WORKS_URL      = BASE_URL + "works";
 const CATEGORIES_URL = BASE_URL + "categories";
-const SEND_URL       = BASE_URL + "works";
+
 
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
@@ -133,6 +133,18 @@ function displayAdmin() {
     });
 }
 
+function deleteWorks(id) {
+    const token = localStorage.getItem('token');
+    fetch(`${WORKS_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Authorization': `Bearer ${token}`
+            }
+    })
+
+    .catch(error => console.log(error));
+}
+
 async function worksFunction() {
     const works = await getWorks();
 
@@ -149,14 +161,21 @@ async function worksFunction() {
 
         li.appendChild(img);
         gallery.appendChild(li);
-        gallery.appendChild(delet);
+        li.appendChild(delet);
 
         croix.addEventListener('click', () => {
             gallery.removeChild(li);
             gallery.removeChild(delet);
         });
+
+        delet.addEventListener('click', (event) => {
+            event.preventDefault();
+            deleteWorks(work.id);
+        })
     }
 }
+
+
 
 async function createGalleryModale() {
     worksFunction();
@@ -219,6 +238,8 @@ function formModale() {
         
     })
 
+
+
     addPicture.style.display  = "flex";
     postPicture.style.display = "flex";
 
@@ -264,12 +285,16 @@ function displayFormModale() {
 
 
 function sendFormData() {
-    const form = document.getElementById('add-picture');
-    const formData = new FormData(form);
+
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    formData.append('title', document.getElementById('title').value);
+    formData.append('category', document.getElementById('category').value);
+    console.log(formData)
 
     const token = localStorage.getItem('token'); // Récupère le token depuis le local storage
     console.log(token);
-    fetch('SEND_URL', {
+    fetch(WORKS_URL, {
     method: 'POST',
     body: formData,
     headers: {

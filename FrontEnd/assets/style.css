@@ -3,6 +3,12 @@
    License: none (public domain)
 */
 
+img {
+	max-width: 100%;
+	height: 308px;
+	object-fit: cover;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -99,6 +105,10 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+}
+
+nav img {
+	height: 25px;
 }
 
 nav a {
@@ -338,6 +348,7 @@ button {
 
 
 .modale ul {
+	gap: 10px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -349,7 +360,8 @@ button {
 }
 
 .modale li {
-	margin: 15px -5px;
+	margin-bottom: 20px ;
+	position: relative;
 }
 
 .modale img {
@@ -371,9 +383,9 @@ button {
 }
 
 .garbage {
-	position: relative;
-	top: 23px;
-	right: 25px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
 	color: #FFF;
 	background-color: #000;
 	width: 20px;
@@ -493,8 +505,5 @@ button {
 }
 
 .modale-image img {
-	max-width: 420px;
-	max-height: 170px;
-	height: 100%;
-	width: 50%;
+
 }
