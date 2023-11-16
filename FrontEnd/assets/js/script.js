@@ -95,6 +95,8 @@ async function displayWorks(categoriesId = 0) {
     });
 }
 
+
+
 async function displayFilters() {
     const filters = await getCategories();
     filters.unshift({ id: 0, name: "Tous" });
@@ -110,27 +112,9 @@ async function displayFilters() {
     });
 }
 
-function displayAdmin() {
-    const projetTitle = document.querySelector("#project-title");
-    const login       = document.querySelector("#login");
-    const headband    = document.createElement("div");
-    
-    headband.classList.add("headband");
-    headband.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Mode édition';
-    const firstChild = body.firstChild;
-    body.insertBefore(headband, firstChild);
-
-    login.innerHTML = '<button class="logout">logout</button>';
-    login.addEventListener("click", logout);
-
-    const modify = document.createElement("button");
-    modify.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Modifier';
-
-    projetTitle.appendChild(modify);
-
-    modify.addEventListener("click", () => {
-        createGalleryModale();
-    });
+function logout() {
+    localStorage.removeItem("token");
+    location.href = "assets/login.html";
 }
 
 function deleteWorks(id) {
@@ -141,8 +125,20 @@ function deleteWorks(id) {
             'Authorization': `Bearer ${token}`
             }
     })
-
     .catch(error => console.log(error));
+}
+
+function fermerModale() {
+    modaleContainer.removeChild(modale);
+}
+
+function removeModale() {
+    leftArrow.remove();
+    modale.appendChild(navigate);
+    modale.appendChild(title);
+    modale.appendChild(gallery);
+    modale.appendChild(rod);
+    modale.appendChild(addDel);
 }
 
 async function worksFunction() {
@@ -174,115 +170,6 @@ async function worksFunction() {
         })
     }
 }
-
-
-
-async function createGalleryModale() {
-    worksFunction();
-
-    modale.classList.add('modale');
-    navigate.classList.add('navigate');
-    title.classList.add('title-gallery');
-    rod.classList.add('rod');
-    addDel.classList.add('button-gallery');
-
-    title.innerText   = 'Galerie photo';
-    addDel.innerText  = 'Ajouter une photo';
-    croix.innerHTML   = '<i class="fa-solid fa-xmark "></i>';
-
-    croix.addEventListener('click', fermerModale);
-    addDel.addEventListener('click', () => {
-        formModale();
-    });
-
-    navigate.appendChild(croix);
-    modale.appendChild(navigate);
-    modale.appendChild(title);
-    modale.appendChild(gallery);
-    modale.appendChild(rod);
-    modale.appendChild(addDel);
-    modaleContainer.appendChild(modale);
-}
-
-function formModale() {
-    gallery.remove();
-    addDel.remove();
-    rod.remove();
-
-    rod.classList.add('rodmodale');
-    title.innerText = 'Ajout photo';
-
-    leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
-    leftArrow.addEventListener('click', () => {
-        addPicture.style.display = "none";
-        title.innerText = 'Galerie photo';
-        removeModale();
-        postPicture.style.display = "none";
-    });
-
-    croix.addEventListener('click', () => {
-        addPicture.style.display = "none";
-        leftArrow.remove();
-        postPicture.style.display = "none";
-    });
-
-    addButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        displayFormModale();
-        fileInput.click();
-    })
-
-    validate.addEventListener('click', (event) => {
-        event.preventDefault();
-        sendFormData();
-        
-    })
-
-
-
-    addPicture.style.display  = "flex";
-    postPicture.style.display = "flex";
-
-    navigate.appendChild(leftArrow);
-    modale.appendChild(addPicture);
-    modale.appendChild(rod);
-    modale.appendChild(postPicture)
-}
-
-function removeModale() {
-    leftArrow.remove();
-    modale.appendChild(navigate);
-    modale.appendChild(title);
-    modale.appendChild(gallery);
-    modale.appendChild(rod);
-    modale.appendChild(addDel);
-}
-
-function displayFormModale() {
-
-    fileInput.setAttribute('type', 'file');
-    fileInput.setAttribute('accept', 'image/jpeg, image/png');
-    fileInput.setAttribute('max-size', '4194304'); // 4 Mo en octets
-    
-    fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-    
-    reader.onload = (e) => {
-        const addImage = document.createElement('img');
-        addImage.setAttribute('src', e.target.result);
-        addImage.setAttribute('alt', 'Image ajoutée');
-    
-        const figure = document.querySelector('.modale-image');
-        figure.innerText = '';
-        figure.appendChild(addImage);
-    };
-
-        reader.readAsDataURL(file);
-    });
-}
-
-
 
 function sendFormData() {
 
@@ -317,13 +204,124 @@ function sendFormData() {
 })  
 }
 
+function displayFormModale() {
 
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('accept', 'image/jpeg, image/png');
+    fileInput.setAttribute('max-size', '4194304'); // 4 Mo en octets
+    
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+    
+    reader.onload = (e) => {
+        const addImage = document.createElement('img');
+        addImage.setAttribute('src', e.target.result);
+        addImage.setAttribute('alt', 'Image ajoutée');
+    
+        const figure = document.querySelector('.modale-image');
+        figure.innerText = '';
+        figure.appendChild(addImage);
+    };
 
-function fermerModale() {
-    modaleContainer.removeChild(modale);
+        reader.readAsDataURL(file);
+    });
+}
+
+function formModale() {
+    gallery.remove();
+    addDel.remove();
+    rod.remove();
+
+    rod.classList.add('rodmodale');
+    title.innerText = 'Ajout photo';
+
+    leftArrow.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+    leftArrow.addEventListener('click', () => {
+        addPicture.style.display = "none";
+        title.innerText = 'Galerie photo';
+        removeModale();
+        postPicture.style.display = "none";
+    });
+
+    croix.addEventListener('click', () => {
+        addPicture.style.display = "none";
+        leftArrow.remove();
+        postPicture.style.display = "none";
+    });
+
+    addButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        displayFormModale();
+        fileInput.click();
+    })
+
+    validate.addEventListener('click', (event) => {
+        event.preventDefault();
+        sendFormData();
+    })
+
+    addPicture.style.display  = "flex";
+    postPicture.style.display = "flex";
+
+    navigate.appendChild(leftArrow);
+    modale.appendChild(addPicture);
+    modale.appendChild(rod);
+    modale.appendChild(postPicture)
+}
+
+async function createGalleryModale() {
+    worksFunction();
+
+    modale.classList.add('modale');
+    navigate.classList.add('navigate');
+    title.classList.add('title-gallery');
+    rod.classList.add('rod');
+    addDel.classList.add('button-gallery');
+
+    title.innerText   = 'Galerie photo';
+    addDel.innerText  = 'Ajouter une photo';
+    croix.innerHTML   = '<i class="fa-solid fa-xmark "></i>';
+
+    croix.addEventListener('click', fermerModale);
+    addDel.addEventListener('click', () => {
+        formModale();
+    });
+
+    navigate.appendChild(croix);
+    modale.appendChild(navigate);
+    modale.appendChild(title);
+    modale.appendChild(gallery);
+    modale.appendChild(rod);
+    modale.appendChild(addDel);
+    modaleContainer.appendChild(modale);
+}
+
+function displayAdmin() {
+    const projetTitle = document.querySelector("#project-title");
+    const login       = document.querySelector("#login");
+    const headband    = document.createElement("div");
+    
+    headband.classList.add("headband");
+    headband.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Mode édition';
+    const firstChild = body.firstChild;
+    body.insertBefore(headband, firstChild);
+
+    login.innerHTML = '<button class="logout">logout</button>';
+    login.addEventListener("click", logout);
+
+    const modify = document.createElement("button");
+    modify.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Modifier';
+
+    projetTitle.appendChild(modify);
+
+    modify.addEventListener("click", () => {
+        createGalleryModale();
+    });
 }
 
 function switchDisplay() {
+    displayWorks();
     if (localStorage.getItem("token")) {
         displayAdmin();
     } else {
@@ -331,15 +329,8 @@ function switchDisplay() {
     }
 }
 
-function logout() {
-    localStorage.removeItem("token");
-    location.href = "assets/login.html";
-}
-
-
-
 //MAIN
 
 switchDisplay();
-displayWorks();
+
 

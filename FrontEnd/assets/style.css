@@ -159,7 +159,7 @@ a:hover {
 
 .gallery img {
 	width: 100%;
-
+	height: 500px;
 }
 #contact {
 	width: 50%;
@@ -502,8 +502,4 @@ button {
 	font-weight: 100;
 	letter-spacing: .5px;
 	background-color: #A7A7A7;
-}
-
-.modale-image img {
-
 }
