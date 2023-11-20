@@ -225,11 +225,9 @@ function sendFormData() {
     })
     .then(data => {
     console.log('Réponse de l\'API :', data);
-    // Faites quelque chose avec la réponse de l'API
     })
     .catch(error => {
     console.error('Erreur lors de l\'envoi du formulaire :', error);
-    // Gérez les erreurs lors de l'envoi du formulaire
 })  
 }
 
@@ -282,8 +280,8 @@ function formModale() {
 
     croix.addEventListener('click', () => {
         addPicture.style.display = "none";
-        leftArrow.remove();
         postPicture.style.display = "none";
+        leftArrow.remove();
     });
 
     addButton.addEventListener('click', (event) => {
@@ -323,7 +321,9 @@ async function createGalleryModale() {
     addDel.innerText  = 'Ajouter une photo';
     croix.innerHTML   = '<i class="fa-solid fa-xmark "></i>';
 
-    croix.addEventListener('click', fermerModale);
+    croix.addEventListener('click', () => {
+        modale.remove();
+    });
     addDel.addEventListener('click', () => {
         formModale();
     });
