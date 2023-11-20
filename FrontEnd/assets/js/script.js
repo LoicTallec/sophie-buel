@@ -6,7 +6,6 @@ const BASE_URL       = "http://localhost:5678/api/";
 const WORKS_URL      = BASE_URL + "works";
 const CATEGORIES_URL = BASE_URL + "categories";
 
-
 const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
 const body             = document.querySelector("body");
@@ -18,7 +17,6 @@ const fileInput        = document.createElement('input');
 const newPicture       = document.querySelector('.post-picture');
 
 const image            = figure.querySelector('img');
-
 const modale           = document.createElement('section');
 const navigate         = document.createElement('div');
 const leftArrow        = document.createElement("span");
@@ -32,13 +30,12 @@ const li               = document.createElement('li');
 const validate         = document.getElementById("validate");
 const addPicture       = document.getElementById("add-picture");
 
-
-
-
-// VARIABLES
-
 // FUNCTIONS
 
+
+/**
+ * Récupère les travaux à partir du serveur.
+ */
 async function getWorks() {
     try {
         const response = await fetch(WORKS_URL);
@@ -56,6 +53,9 @@ async function getWorks() {
     }
 }
 
+/**
+ * Récupère les catégories depuis le serveur.
+ */
 async function getCategories() {
     try {
         const response = await fetch(CATEGORIES_URL);
@@ -73,6 +73,12 @@ async function getCategories() {
     }
 }
 
+/**
+ * Affiche les travaux dans la galerie en fonction de l'ID de catégorie donné.
+ *
+ * @param {number} categoriesId - L'ID de la catégorie pour filtrer les travaux. Par défaut, 0 si non fourni.
+ * @return {Promise<void>} Une promesse qui se résout une fois que les travaux ont été affichés dans la galerie.
+ */
 async function displayWorks(categoriesId = 0) {
     const works = await getWorks();
 
@@ -95,8 +101,9 @@ async function displayWorks(categoriesId = 0) {
     });
 }
 
-
-
+/**
+ * Affiche les filtres pour les catégories.
+ */
 async function displayFilters() {
     const filters = await getCategories();
     filters.unshift({ id: 0, name: "Tous" });
@@ -112,11 +119,19 @@ async function displayFilters() {
     });
 }
 
+/**
+ * Déconnecte l'utilisateur en supprimant le jeton du stockage local et en redirigeant vers la page de connexion.
+ */
 function logout() {
     localStorage.removeItem("token");
     location.href = "assets/login.html";
 }
 
+/**
+ * Supprime un élément de travail avec l'ID spécifié.
+ *
+ * @param {number} id - L'ID de l'élément de travail à supprimer.
+ */
 function deleteWorks(id) {
     const token = localStorage.getItem('token');
     fetch(`${WORKS_URL}/${id}`, {
@@ -128,10 +143,16 @@ function deleteWorks(id) {
     .catch(error => console.log(error));
 }
 
+/**
+ * Supprime la modale du conteneur de la modale.
+ */
 function fermerModale() {
     modaleContainer.removeChild(modale);
 }
 
+/**
+ * Supprime la modale du DOM.
+ */
 function removeModale() {
     leftArrow.remove();
     modale.appendChild(navigate);
@@ -141,6 +162,9 @@ function removeModale() {
     modale.appendChild(addDel);
 }
 
+/**
+ * Récupère une liste de travaux et les affiche dans la galerie.
+ */
 async function worksFunction() {
     const works = await getWorks();
 
@@ -171,6 +195,11 @@ async function worksFunction() {
     }
 }
 
+/**
+ * Envoie les données du formulaire à un serveur en utilisant une requête POST.
+ *
+ * @param {FormData} formData - Les données du formulaire à envoyer.
+ */
 function sendFormData() {
 
     const formData = new FormData();
@@ -204,6 +233,10 @@ function sendFormData() {
 })  
 }
 
+
+/**
+ * Affiche une modale de formulaire et gère la sélection d'un fichier image.
+ */
 function displayFormModale() {
 
     fileInput.setAttribute('type', 'file');
@@ -228,6 +261,9 @@ function displayFormModale() {
     });
 }
 
+/**
+ * Supprime des éléments du DOM et ajoute une nouvelle classe à un élément.
+ */
 function formModale() {
     gallery.remove();
     addDel.remove();
@@ -254,12 +290,13 @@ function formModale() {
         event.preventDefault();
         displayFormModale();
         fileInput.click();
-    })
+    });
 
     validate.addEventListener('click', (event) => {
         event.preventDefault();
         sendFormData();
-    })
+    });
+
 
     addPicture.style.display  = "flex";
     postPicture.style.display = "flex";
@@ -270,6 +307,9 @@ function formModale() {
     modale.appendChild(postPicture)
 }
 
+/**
+ * Crée une modale de galerie.
+ */
 async function createGalleryModale() {
     worksFunction();
 
@@ -297,6 +337,9 @@ async function createGalleryModale() {
     modaleContainer.appendChild(modale);
 }
 
+/**
+ * Affiche la section admin du site web.
+*/
 function displayAdmin() {
     const projetTitle = document.querySelector("#project-title");
     const login       = document.querySelector("#login");
@@ -320,6 +363,9 @@ function displayAdmin() {
     });
 }
 
+/**
+ * Change l'affichage en fonction de la présence d'un jeton dans le stockage local.
+ */
 function switchDisplay() {
     displayWorks();
     if (localStorage.getItem("token")) {
