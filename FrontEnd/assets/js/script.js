@@ -26,7 +26,7 @@ const gallery = document.createElement('ul');
 const rod = document.createElement('div');
 const addDel = document.createElement('button');
 const li = document.createElement('li');
-
+const background = document.createElement('div');
 const validate = document.getElementById("validate");
 const addPicture = document.getElementById("add-picture");
 
@@ -144,13 +144,6 @@ function deleteWorks(id) {
 }
 
 /**
- * Supprime la modale du conteneur de la modale.
- */
-function fermerModale() {
-  modaleContainer.removeChild(modale);
-}
-
-/**
  * Supprime la modale du DOM.
  */
 function removeModale() {
@@ -191,6 +184,11 @@ async function worksFunction() {
 
   croix.addEventListener('click', () => {
     gallery.innerHTML = '';
+  });
+
+  background.addEventListener('click', () => {
+    gallery.innerHTML = '';
+    removeBackground();
   });
 }
 
@@ -264,14 +262,15 @@ function displayFormModale() {
 function returnFirstModale() {
   addPicture.style.display = "none";
   title.innerText = 'Galerie photo';
-  removeModale();
   postPicture.style.display = "none";
+  removeModale();
 }
 
 function closeSecondeModale() {
   addPicture.style.display = "none";
   postPicture.style.display = "none";
   leftArrow.remove();
+  background.classList.remove('darken-background');
 }
 
 function addImage(event) {
@@ -293,7 +292,11 @@ function setModaleListeners() {
 }
 
 function removeBackground() {
-  modaleContainer.classList.remove('darken-background');
+  background.classList.remove('darken-background');
+  background.addEventListener('click', closeFirstModale);
+  addPicture.style.display = "none";
+  postPicture.style.display = "none";
+  leftArrow.remove();
 }
 
 function setFirstModaleListeners() {
@@ -345,20 +348,21 @@ async function createGalleryModale() {
   title.classList.add('title-gallery');
   rod.classList.add('rod');
   addDel.classList.add('button-gallery');
-  modaleContainer.classList.add('darken-background');
+  background.classList.add('darken-background');
 
   title.innerText = 'Galerie photo';
   addDel.innerText = 'Ajouter une photo';
   croix.innerHTML = '<i class="fa-solid fa-xmark "></i>';
 
   setFirstModaleListeners();
-
+  background.addEventListener('click', closeFirstModale);
   navigate.appendChild(croix);
   modale.appendChild(navigate);
   modale.appendChild(title);
   modale.appendChild(gallery);
   modale.appendChild(rod);
   modale.appendChild(addDel);
+  modaleContainer.appendChild(background);
   modaleContainer.appendChild(modale);
 }
 
