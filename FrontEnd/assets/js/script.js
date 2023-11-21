@@ -2,33 +2,33 @@
 
 //CONSTANTS
 
-const BASE_URL = "http://localhost:5678/api/";
-const WORKS_URL = BASE_URL + "works";
-const CATEGORIES_URL = BASE_URL + "categories";
+const BASE_URL         = "http://localhost:5678/api/";
+const WORKS_URL        = BASE_URL + "works";
+const CATEGORIES_URL   = BASE_URL + "categories";
 
-const galleryDiv = document.querySelector('.gallery');
+const galleryDiv       = document.querySelector('.gallery');
 const filtersContainer = document.querySelector(".filters");
-const body = document.querySelector("body");
-const modaleContainer = document.querySelector('.modale-container');
-const postPicture = document.querySelector(".post-picture");
-const figure = document.querySelector('.modale-image');
-const addButton = document.querySelector('.add');
-const fileInput = document.createElement('input');
-const newPicture = document.querySelector('.post-picture');
+const body             = document.querySelector("body");
+const modaleContainer  = document.querySelector('.modale-container');
+const postPicture      = document.querySelector(".post-picture");
+const figure           = document.querySelector('.modale-image');
+const addButton        = document.querySelector('.add');
+const fileInput        = document.createElement('input');
+const newPicture       = document.querySelector('.post-picture');
 
-const image = figure.querySelector('img');
-const modale = document.createElement('section');
-const navigate = document.createElement('div');
-const leftArrow = document.createElement("span");
-const croix = document.createElement('span');
-const title = document.createElement('h2');
-const gallery = document.createElement('ul');
-const rod = document.createElement('div');
-const addDel = document.createElement('button');
-const li = document.createElement('li');
-const background = document.createElement('div');
-const validate = document.getElementById("validate");
-const addPicture = document.getElementById("add-picture");
+const modale           = document.createElement('section');
+const navigate         = document.createElement('div');
+const leftArrow        = document.createElement("span");
+const croix            = document.createElement('span');
+const title            = document.createElement('h2');
+const gallery          = document.createElement('ul');
+const rod              = document.createElement('div');
+const addDel           = document.createElement('button');
+const li               = document.createElement('li');
+const background       = document.createElement('div');
+const validate         = document.getElementById("validate");
+const addPicture       = document.getElementById("add-picture");
+
 
 // FUNCTIONS
 
